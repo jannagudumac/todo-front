@@ -1,0 +1,35 @@
+<div
+  id="full-cover-background"
+  class="flex h-full bg-gray-100 items-center justify-center"
+>
+  <div id="centered-block" class="bg-white p-6 rounded-xl shadow-md">
+    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+      <h2 class="text-center">Signup</h2>
+      <div id="username">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            type="email"
+            placeholder="Email"
+          />
+        </mat-form-field>
+      </div>
+      <div id="password">
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            type="password"
+            placeholder="Mot de passe"
+          />
+        </mat-form-field>
+      </div>
+      <div id="button-container" class="flex flex-col gap-2">
+        <button mat-flat-button type="submit" class="w-full">Register</button>
+      </div>
+    </form>
+  </div>
+</div>
