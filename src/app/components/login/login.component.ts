@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+/* import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -56,10 +56,10 @@ export class LoginComponent implements OnInit {
   });
 
 }
-}
+}*/
 
 
-/*
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const credentials = this.loginForm.value;
-      this.authService.login(credentials).subscribe({
+      this.authService.login(credentials.username, credentials.password).subscribe({
         next: (res) => {
           sessionStorage.setItem('authToken', res.token);
           this.router.navigateByUrl('');
@@ -103,4 +103,4 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-}*/
+}
