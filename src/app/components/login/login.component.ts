@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
       const credentials = this.loginForm.value;
       this.authService.login(credentials.username, credentials.password).subscribe({
         next: (res) => {
-          sessionStorage.setItem('authToken', res.token);
+          sessionStorage.setItem('jwt', res.token);
           this.router.navigateByUrl('');
         },
         error: (err) => console.error('Erreur de connexion', err),
