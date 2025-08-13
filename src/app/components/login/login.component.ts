@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, password).subscribe({
       next: (res) => {
         this.authService.saveToken(res.token);
-        /*this.authService.isAdmin = res.role == 'ROLE_ADMIN';*/
+        this.authService.isAdmin = res.role == 'ROLE_ADMIN';
         this.router.navigate(['/']); // Redirect to dashboard
       },
       error: (err) => {
