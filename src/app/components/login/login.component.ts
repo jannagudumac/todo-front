@@ -1,4 +1,4 @@
-/* import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      //1er parametre: valeur initiale du champ
+      //1er psarametre: valeur initiale du champ
       //2eme parametre: liste de validators
       username: ['', [Validators.required, Validators.email]],
       password:['', [Validators.required]]
@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, password).subscribe({
       next: (res) => {
         this.authService.saveToken(res.token);
+        /*this.authService.isAdmin = res.role == 'ROLE_ADMIN';*/
         this.router.navigate(['/']); // Redirect to dashboard
       },
       error: (err) => {
@@ -54,11 +55,10 @@ export class LoginComponent implements OnInit {
         console.error(err);
       }
   });
-
+  }
 }
-}*/
 
-
+/*
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -70,22 +70,21 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'] // fixed typo: styleUrls instead of styleUrl
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  // Ajout d'une variable pour gérer les messages d'erreur
   errorMessage: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService, // <-- Injection du service d'authentification
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      // J'ai renommé 'username' en 'email' pour correspondre à ce que le backend attend généralement
+      // Keep 'username' if that's what backend expects; if it's 'email', rename consistently everywhere
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
@@ -93,14 +92,19 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const credentials = this.loginForm.value;
-      this.authService.login(credentials.username, credentials.password).subscribe({
+      const credentials = this.loginForm.value; // { username: '...', password: '...' }
+
+      this.authService.login(credentials).subscribe({
         next: (res) => {
           sessionStorage.setItem('jwt', res.token);
           this.router.navigateByUrl('');
         },
-        error: (err) => console.error('Erreur de connexion', err),
+        error: (err) => {
+          console.error('Erreur de connexion', err);
+          this.errorMessage = 'Identifiants invalides. Veuillez réessayer.';
+        },
       });
     }
   }
 }
+*/

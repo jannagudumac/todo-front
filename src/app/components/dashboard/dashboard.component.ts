@@ -48,7 +48,10 @@ export class DashboardComponent implements OnInit {
     this.fetchTodo();
   }
 
-  fetchTodo() {
+  
+
+
+  /* fetchTodo() {
     //Communication asynchrone donc il faut s'inscrire pour avoir le retour
     this.todoService.getTodos().subscribe((data) => {
       this.todos = data;
@@ -86,5 +89,51 @@ export class DashboardComponent implements OnInit {
       this.kpis[1].value = countLate;
 
     });
+  }*/
+
+  //FIX DASHBOARD TAREK
+  
+  fetchTodo() {
+    //Communication asynchrone donc il faut s'inscrire pour avoir le retour
+    this.todoService.getTodos().subscribe((data) => {
+      this.todos = data;
+      //new Date() sans paramètres retourne "today"
+      
+      //par defaut il va mettre hours = 0 minutes = 0
+      let today = new Date();
+      today.setHours(0);
+      today.setMinutes(0);
+      today.setSeconds(0);
+      let countUrgent = 0, countToday = 0, countLate = 0;
+
+      //Urgentes: priority = 1 Et due date = Aujourd'hui
+      //"==" n'est pas utilisable avec les objets Date
+      //pour cela je convertis en string avec la fonction .toDateString()
+      //afin de pouvoir utiliser "=="
+      countUrgent = this.todos.filter(c=>
+        c.priority == '1' &&
+        new Date(c.dueDate).toDateString() == today.toDateString()).length;
+
+      this.kpis[2].value = countUrgent;
+
+      //A faire aujourd'hui: due date = Aujourd'hui
+      //En utilisant la boucle for/of pour travers la liste todos
+      //Remplir la variable de countToday
+      for(let item of this.todos) {
+        if(new Date(item.dueDate).toDateString() == today.toDateString())
+          countToday ++;
+      }
+      this.kpis[0].value = countToday;
+
+      //Tache en retard: due date < Aujourd'hui
+      for(let i = 0; i < this.todos.length; i++) {
+
+        if(new Date(this.todos[i].dueDate) < today)
+          countLate = countLate + 1;
+      }
+      this.kpis[1].value = countLate;
+
+    });
   }
+
 }
