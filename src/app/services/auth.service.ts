@@ -8,10 +8,14 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiURL = environment.apiUrl; // e.g., 'http://localhost:8080/api'
+  private apiURL = environment.apiUrl; 
   isAdmin = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    // restore admin role on page reload
+    const savedRole = sessionStorage.getItem('role');
+    this.isAdmin = savedRole === 'ROLE_ADMIN';
+  }
 
   login(username: string, password: string) {
     return this.http.post<{ token: string; role: string }>(`${this.apiURL}/auth/login`, {
@@ -20,8 +24,10 @@ export class AuthService {
     });
   }
 
-  saveToken(token: string) {
+  saveToken(token: string, role: string) {
     sessionStorage.setItem('jwt', token);
+    sessionStorage.setItem('role', role);
+    this.isAdmin = role === 'ROLE_ADMIN'; // update runtime property
   }
 
   getToken() {
@@ -30,6 +36,8 @@ export class AuthService {
 
   logout() {
     sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('role');
+    this.isAdmin = false;
     this.router.navigate(['/login']);
   }
 
@@ -37,6 +45,7 @@ export class AuthService {
     return !!this.getToken();
   }
 }
+
 
 
 

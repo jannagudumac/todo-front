@@ -9,4 +9,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   } else {
     return router.createUrlTree(['/login']);
   }
+
+  //stocker le role de isAdmin
+  //authService
 };

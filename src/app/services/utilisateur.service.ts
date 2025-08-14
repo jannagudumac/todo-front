@@ -23,32 +23,32 @@ export class UtilisateurService {
 })
 export class UtilisateurService {
 
-  private apiURL = environment.apiUrl + '/api/utilisateurs';
+  private apiURL = environment.apiUrl + '/api/utilisateur-list';
 
   constructor(private http: HttpClient) { }
 
   // Get ALL
-  getAllUtilisateurs() {
+  getAllUsers() {
     return this.http.get<Utilisateur[]>(this.apiURL);
   }
 
   // Get one
-  getUtilisateur(id: number) {
+  getUser(id: number) {
     return this.http.get<Utilisateur>(this.apiURL + '/' + id);
   }
 
   // Create
-  addUtilisateur(item: Utilisateur) {
+  addUser(item: Utilisateur) {
     return this.http.post<Utilisateur>(this.apiURL, item);
   }
 
   // Update
-  updateUtilisateur(item: Utilisateur) {
+  updateUser(item: Utilisateur) {
     return this.http.put<Utilisateur>(this.apiURL + '/' + item.id, item);
   }
 
   // Delete
-  deleteUtilisateur(id: number) {
+  deleteUser(id: number) {
     return this.http.delete(this.apiURL + '/' + id);
   }
 

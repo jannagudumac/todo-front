@@ -34,8 +34,8 @@ export class InMemoryDataService implements InMemoryDataService {
     const todos : Todo[] = [];
 
     const utilisateurs : Utilisateur[] = [
-      {id:1, firstName:'Marie', lastName:'Curie', genre:'Femme'},
-      {id:2, firstName:'Marie 2', lastName:'Curie 2', genre:'Femme'}
+      /*{id:1, firstName:'Marie', lastName:'Curie', genre:'Femme'},
+      {id:2, firstName:'Marie 2', lastName:'Curie 2', genre:'Femme'}*/
     ];
 
     return { todos, utilisateurs }; // un lien endpoint api/todos 

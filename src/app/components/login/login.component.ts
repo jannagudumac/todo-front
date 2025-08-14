@@ -41,21 +41,23 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    console.log('Form submitted', this.loginForm.value);
-    const { username, password } = this.loginForm.value;
-    this.authService.login(username, password).subscribe({
-      next: (res) => {
-        this.authService.saveToken(res.token);
-        this.authService.isAdmin = res.role == 'ROLE_ADMIN';
-        this.router.navigate(['/']); // Redirect to dashboard
-      },
-      error: (err) => {
-        this.errorMessage = 'Login failed. Check credentials.';
-        console.error(err);
-      }
+onSubmit() {
+  console.log('Form submitted', this.loginForm.value);
+  const { username, password } = this.loginForm.value;
+  this.authService.login(username, password).subscribe({
+    next: (res) => {
+      // Pass both token and role
+      this.authService.saveToken(res.token, res.role);
+      // isAdmin is now set inside saveToken
+      this.router.navigate(['/']); // Redirect to dashboard
+    },
+    error: (err) => {
+      this.errorMessage = 'Login failed. Check credentials.';
+      console.error(err);
+    }
   });
-  }
+}
+
 }
 
 /*

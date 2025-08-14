@@ -10,6 +10,5 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   title = 'Todo-list';
   constructor(public authService : AuthService){
-    
   }
 }
