@@ -9,6 +9,10 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'Todo-list';
-  constructor(public authService : AuthService){
+  constructor(public authService: AuthService) {
+  }
+  logout() {
+    localStorage.removeItem('token'); // or sessionStorage if you use that
+    window.location.href = '/login'; // redirect to login page
   }
 }
