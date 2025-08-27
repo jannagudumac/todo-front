@@ -16,7 +16,7 @@
                     <div class="flex items-center">
                         <mat-checkbox [checked]="todo.completed" (change)="onCheckChange($event, todo)"></mat-checkbox>
                         <span [routerLink]="['/todo-detail', todo.id]" class="flex-1 cursor-pointer">{{ todo.title }}</span>
-                        <button mat-icon-button (click)="onDeleteTodo(todo.id)">
+                        <button id="delete-button" mat-icon-button (click)="onDeleteTodo(todo.id)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>
