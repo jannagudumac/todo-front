@@ -4,31 +4,29 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { LoginComponent } from './login.component';
-import { AuthService } from '../../services/auth.service';
+import { SignUpComponent } from './sign-up.component';
+import { SignupService } from '../../services/signup.service';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('SignUpComponent', () => {
+  let component: SignUpComponent;
+  let fixture: ComponentFixture<SignUpComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule],
-      declarations: [LoginComponent],
+      declarations: [SignUpComponent],
       providers: [
         {
-          provide: AuthService,
+          provide: SignupService,
           useValue: {
-            login: () => of({ token: 'token', role: 'ROLE_USER' }),
-            saveToken: jasmine.createSpy('saveToken')
+            register: () => of({})
           }
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

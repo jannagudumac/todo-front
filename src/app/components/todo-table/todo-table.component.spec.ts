@@ -1,6 +1,10 @@
+import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 
 import { TodoTableComponent } from './todo-table.component';
+import { TodoService } from '../../services/todo.service';
 
 describe('TodoTableComponent', () => {
   let component: TodoTableComponent;
@@ -8,7 +12,17 @@ describe('TodoTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TodoTableComponent]
+      imports: [CommonModule],
+      declarations: [TodoTableComponent],
+      providers: [
+        {
+          provide: TodoService,
+          useValue: {
+            getTodos: () => of([])
+          }
+        }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
 
