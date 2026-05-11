@@ -1,34 +1,26 @@
 <div
   id="full-cover-background"
   class="flex h-full items-center justify-center"
+  style="background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 50%, #ede9fe 100%)"
 >
-  <div id="centered-block" class="bg-white p-6 rounded-xl shadow-md">
+  <div id="centered-block" class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm mx-4">
+    <div class="flex flex-col items-center mb-6">
+      <mat-icon style="font-size:40px; width:40px; height:40px; color:#7c3aed">person_add</mat-icon>
+      <h2 class="text-center m-0 mt-2" style="color:#1e1b4b; font-weight:800">Créer un compte</h2>
+    </div>
     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-      <h2 class="text-center">Signup</h2>
-      <div id="username">
-        <mat-form-field>
-          <mat-label>Username</mat-label>
-          <input
-            matInput
-            formControlName="username"
-            type="email"
-            placeholder="Email"
-          />
-        </mat-form-field>
-      </div>
-      <div id="password">
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input
-            matInput
-            formControlName="password"
-            type="password"
-            placeholder="Mot de passe"
-          />
-        </mat-form-field>
-      </div>
-      <div id="button-container" class="flex flex-col gap-2">
-        <button mat-flat-button type="submit" class="w-full">Register</button>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="username" type="email" placeholder="Email" />
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput formControlName="password" type="password" placeholder="Mot de passe" />
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+      <div id="button-container" class="flex flex-col gap-2 mt-1">
+        <button mat-flat-button type="submit" class="w-full">S'enregistrer</button>
       </div>
     </form>
   </div>

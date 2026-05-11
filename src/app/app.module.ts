@@ -31,6 +31,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CalculatriceComponent } from './components/calculatrice/calculatrice.component';
 import { MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDividerModule } from '@angular/material/divider';
+import { LayoutModule } from '@angular/cdk/layout';
 import { authInterceptor } from './interceptors/auth.interceptor';
 
 
@@ -68,6 +70,8 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     MatTableModule,
     MatChipsModule,
     MatAutocompleteModule,
+    MatDividerModule,
+    LayoutModule,
     FormsModule,
 
 

@@ -1,30 +1,32 @@
 :root {
-  --mat-sys-primary: light-dark(#2196f3, #90caf9);
-  --mat-sys-on-primary: light-dark(#ffffff, #000000);
+  /* Primary: Indigo */
+  --mat-sys-primary: light-dark(#4f46e5, #818cf8);
+  --mat-sys-on-primary: light-dark(#ffffff, #1e1b4b);
 
-  /* Secondary color */
-  --mat-sys-secondary: light-dark(#f50057, #ff4081);
-  --mat-sys-on-secondary: light-dark(#ffffff, #000000);
+  /* Secondary: Violet */
+  --mat-sys-secondary: light-dark(#7c3aed, #a78bfa);
+  --mat-sys-on-secondary: light-dark(#ffffff, #2e1065);
 
   /* Surface and background */
-  --mat-sys-surface: light-dark(#ffffff, #121212);
-  --mat-sys-on-surface: light-dark(#000000, #ffffff);
-  --mat-sys-background: light-dark(#f5f5f5, #121212);
-  --mat-sys-on-background: light-dark(#000000, #ffffff);
+  --mat-sys-surface: light-dark(#ffffff, #1a1730);
+  --mat-sys-on-surface: light-dark(#1e1b4b, #e0e7ff);
+  --mat-sys-background: light-dark(#f8f7ff, #0f0e1a);
+  --mat-sys-on-background: light-dark(#1e1b4b, #e0e7ff);
 
+  /* Error */
+  --mat-sys-error: light-dark(#ef4444, #fca5a5);
+  --mat-sys-on-error: light-dark(#ffffff, #450a0a);
 
-  --mat-sys-corner-radius: 12px; /* rounded corners */
-   --mat-sys-font-family: 'Nunito', sans-serif;
-
-   --mat-sidenav-container-shape: 0px; 
-
-
-
+  --mat-sys-corner-radius: 12px;
+  --mat-sys-font-family: 'Nunito', sans-serif;
+  --mat-sidenav-container-shape: 0px;
 }
 
 html, body {
   font-family: var(--mat-sys-font-family);
 }
+
+/* ── Buttons ──────────────────────────────────────────── */
 .mat-mdc-button,
 .mat-mdc-raised-button,
 .mat-mdc-outlined-button,
@@ -32,50 +34,123 @@ html, body {
 .mat-mdc-fab,
 .mat-mdc-mini-fab {
   text-transform: none;
-  border-radius: 5px !important; /* force override */
+  border-radius: 8px !important;
 }
+
+/* ── Table ────────────────────────────────────────────── */
 .mat-mdc-table {
-  border-collapse: collapse; /* ensure no gaps between cells */
+  border-collapse: collapse;
   width: 100%;
-  box-shadow: none; /* keep it flat */
-  color: var(--mat-sys-on-background, #000);
+  box-shadow: none;
+  color: var(--mat-sys-on-background, #1e1b4b);
 }
 
 .mat-mdc-header-cell {
-  background-color: var(--mat-sys-background);
-  color: var(--mat-sys-on-primary, #fff);
-  color: black !important;
-  font-weight: 600;
-  padding: 12px 16px
+  background-color: light-dark(#eef2ff, #1e1b4b);
+  color: light-dark(#4f46e5, #c7d2fe) !important;
+  font-weight: 700;
+  padding: 12px 16px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .mat-mdc-cell {
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-bottom: 1px solid rgba(79, 70, 229, 0.08);
 }
 
 .mat-mdc-row:hover {
-  background-color: rgba(0, 150, 136, 0.05);
+  background-color: rgba(79, 70, 229, 0.05);
 }
 
-
+/* ── Sidenav container ────────────────────────────────── */
 .mat-drawer-container {
-  background-color: var(--mat-sys-background, #fafafa);
-  padding: 0; /* remove container padding */
+  background-color: var(--mat-sys-background, #f8f7ff);
+  padding: 0;
 }
 
-
-
+/* Glassmorphism drawer in indigo/violet tones */
 .mat-drawer {
-  background: linear-gradient(90deg,
-    rgba(209, 182, 252, 0.25),
-    rgba(255, 255, 186, 0.25),
-    rgba(255, 255, 186, 0.25),
-    rgba(209, 182, 252, 0.25)
-
+  background: linear-gradient(160deg,
+    rgba(99, 102, 241, 0.18),
+    rgba(139, 92, 246, 0.12),
+    rgba(167, 139, 250, 0.10),
+    rgba(79, 70, 229, 0.15)
   );
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-right: 1px solid rgba(99, 102, 241, 0.20);
+  width: 240px;
 }
 
+/* ── Sidenav brand header ─────────────────────────────── */
+.sidenav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 16px 18px;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+  margin-bottom: 6px;
+}
+
+.sidenav-brand-icon {
+  color: #4f46e5 !important;
+  font-size: 26px !important;
+  width: 26px !important;
+  height: 26px !important;
+}
+
+.sidenav-brand-name {
+  font-weight: 800;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.03em;
+}
+
+/* ── Nav list items ───────────────────────────────────── */
+.mat-mdc-nav-list .mat-mdc-list-item {
+  border-radius: 10px !important;
+  margin: 2px 8px !important;
+  width: calc(100% - 16px) !important;
+  transition: background-color 0.15s ease;
+}
+
+.mat-mdc-nav-list .active-link {
+  background-color: rgba(79, 70, 229, 0.12) !important;
+}
+
+.mat-mdc-nav-list .active-link .mat-icon,
+.mat-mdc-nav-list .active-link .mdc-list-item__primary-text {
+  color: #4f46e5 !important;
+}
+
+.logout-item .mat-icon,
+.logout-item .mdc-list-item__primary-text {
+  color: #ef4444 !important;
+}
+
+/* ── Toolbar ──────────────────────────────────────────── */
+.mat-toolbar {
+  background: light-dark(#ffffff, #0f0e1a) !important;
+  border-bottom: 1px solid rgba(79, 70, 229, 0.12) !important;
+  box-shadow: 0 1px 8px rgba(79, 70, 229, 0.08);
+}
+
+.toolbar-brand-icon {
+  color: #4f46e5;
+  margin: 0 4px 0 6px;
+  font-size: 22px !important;
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.toolbar-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #4f46e5;
+  letter-spacing: 0.02em;
+}
