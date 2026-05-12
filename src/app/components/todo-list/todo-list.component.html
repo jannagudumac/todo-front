@@ -1,27 +1,66 @@
-<mat-card class="h-full flex flex-col">
-    <form [formGroup]="formGroup" (ngSubmit)="onAddTodo()">
-        <div id="todo-bar-saisie" class="flex gap-2 m-4">
-            <mat-form-field appearance="outline" class="flex-1">
-                <input matInput formControlName="title" placeholder="New todo">
-            </mat-form-field>
-            <button mat-fab type="submit">
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
+<div class="page page-fade">
+
+  <div class="page-header">
+    <h1>Mes Tâches</h1>
+    <p>Toutes vos tâches, tous projets confondus.</p>
+  </div>
+
+  <!-- Add task -->
+  <div class="add-bar planit-card">
+    <form [formGroup]="formGroup" (ngSubmit)="onAddTodo()" class="add-form">
+      <div class="field-wrap" style="flex:1">
+        <span class="material-icons field-icon">add_task</span>
+        <input class="field-input" formControlName="title" placeholder="Ajouter une tâche...">
+      </div>
+      <button class="btn-primary" type="submit" [disabled]="formGroup.invalid">
+        <span class="material-icons" style="font-size:18px">add</span>
+        Ajouter
+      </button>
     </form>
-    <div id="todo-liste">
-        <mat-list>
-            @for(todo of todos; track todo.id) {
-                <mat-list-item>
-                    <div class="flex items-center">
-                        <mat-checkbox [checked]="todo.completed" (change)="onCheckChange($event, todo)"></mat-checkbox>
-                        <span [routerLink]="['/todo-detail', todo.id]" class="flex-1 cursor-pointer">{{ todo.title }}</span>
-                        <button class="delete-button" mat-icon-button (click)="onDeleteTodo(todo.id)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </mat-list-item>
-            }
-        </mat-list>
+  </div>
+
+  <!-- Task list -->
+  @if(todos.length === 0) {
+    <div class="empty-state">
+      <span class="material-icons">task_alt</span>
+      <p>Aucune tâche pour l'instant.</p>
     </div>
-</mat-card>
+  }
+
+  <div class="task-list">
+    @for(todo of todos; track todo.id) {
+      <div class="task-item planit-card" [class.task-done]="todo.completed || todo.status === 'DONE'">
+        <div class="task-status-dot"
+             [class.dot-done]="todo.status === 'DONE' || todo.completed"
+             [class.dot-progress]="todo.status === 'IN_PROGRESS'"
+             [class.dot-todo]="!todo.status || todo.status === 'TODO'">
+        </div>
+        <div class="task-body" [routerLink]="['/todo-detail', todo.id]">
+          <span class="task-title">{{ todo.title }}</span>
+          <div class="task-meta">
+            @if(todo.status === 'IN_PROGRESS') {
+              <span class="badge badge-amber">En cours</span>
+            } @else if(todo.status === 'DONE' || todo.completed) {
+              <span class="badge badge-green">Terminé</span>
+            } @else {
+              <span class="badge badge-gray">À faire</span>
+            }
+            @if(todo.priority === '1') {
+              <span class="badge badge-red">Urgente</span>
+            }
+            @if(todo.dueDate) {
+              <span class="task-date">
+                <span class="material-icons" style="font-size:13px">event</span>
+                {{ todo.dueDate | date:'dd/MM/yyyy' }}
+              </span>
+            }
+          </div>
+        </div>
+        <button class="btn-icon danger" (click)="onDeleteTodo(todo.id)">
+          <span class="material-icons" style="font-size:18px">delete_outline</span>
+        </button>
+      </div>
+    }
+  </div>
+
+</div>

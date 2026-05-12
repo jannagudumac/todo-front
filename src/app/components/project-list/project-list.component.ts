@@ -77,7 +77,7 @@ export class ProjectListComponent implements OnInit {
       id: null,
       title: this.addForm.value.title,
       description: this.addForm.value.description || null,
-      deadline: this.addForm.value.deadline || null
+      deadline: this.addForm.value.deadline || null  // empty string → null
     };
     this.projetService.create(newProjet).subscribe(() => {
       this.addForm.reset();

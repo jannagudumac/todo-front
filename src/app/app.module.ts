@@ -38,6 +38,7 @@ import { authInterceptor } from './interceptors/auth.interceptor';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 
@@ -54,7 +55,8 @@ import { ContactsComponent } from './components/contacts/contacts.component';
     CalculatriceComponent,
     ProjectListComponent,
     ProjectDetailComponent,
-    ContactsComponent
+    ContactsComponent,
+    ProfileComponent
   ],
   imports: [
     //Importer les modules pour pouvoir utiliser 

@@ -52,4 +52,12 @@ export class UtilisateurService {
     return this.http.delete(this.apiURL + '/' + id);
   }
 
+  promoteToAdmin(id: number) {
+    return this.http.put(this.apiURL + '/' + id + '/promote', {}, { responseType: 'text' });
+  }
+
+  demoteToUser(id: number) {
+    return this.http.put(this.apiURL + '/' + id + '/demote', {}, { responseType: 'text' });
+  }
+
 }

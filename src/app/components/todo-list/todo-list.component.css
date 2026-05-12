@@ -1,0 +1,26 @@
+.add-bar { padding: 14px 18px; margin-bottom: 20px; }
+.add-form { display: flex; gap: 12px; align-items: center; }
+
+.task-list { display: flex; flex-direction: column; gap: 8px; }
+
+.task-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+}
+.task-done .task-title { text-decoration: line-through; opacity: 0.5; }
+
+.task-status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot-todo     { background: #d1d5db; }
+.dot-progress { background: #f59e0b; }
+.dot-done     { background: #10b981; }
+
+.task-body { flex: 1; cursor: pointer; min-width: 0; }
+.task-title {
+  display: block; font-weight: 600; color: #1e1b4b; font-size: 0.95rem; margin-bottom: 5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.task-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.task-date {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 0.75rem; color: #9ca3af;
+}

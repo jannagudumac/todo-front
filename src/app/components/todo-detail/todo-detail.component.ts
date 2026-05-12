@@ -30,9 +30,9 @@ export class TodoDetailComponent implements OnInit {
 
 //use signal because @for doesn't work with normal arrays, in that case ngFor is needed
 listPriority = signal([
-  { value: 1, text: '1' },
-  { value: 2, text: '2' },
-  { value: 3, text: '3' }
+  { value: '1', text: '🔴 Urgente' },
+  { value: '2', text: '🟡 Normale' },
+  { value: '3', text: '🟢 Basse' }
 ]);
 
 
@@ -67,6 +67,7 @@ listPriority = signal([
               id: [this.todo.id],
               title: [this.todo.title, Validators.required],
               completed: [this.todo.completed],
+              status: [this.todo.status || 'TODO'],
               priority: [this.todo.priority],
               dueDate: [this.todo.dueDate],
               description: [this.todo.description],
@@ -128,12 +129,13 @@ listPriority = signal([
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    let selectedContact = this.allFruits.find(c=>c.id == event.option.value);
-    if(selectedContact != null) {
+    const selectedContact = this.allFruits.find(c => c.id == event.option.value);
+    const alreadyAdded = this.selectedFruits.some(c => c.id == event.option.value);
+    if (selectedContact != null && !alreadyAdded) {
       this.selectedFruits = [...this.selectedFruits, selectedContact];
-      this.currentFruit.setValue('');
-      event.option.deselect();
     }
+    this.currentFruit.setValue('');
+    event.option.deselect();
   }
 
 }

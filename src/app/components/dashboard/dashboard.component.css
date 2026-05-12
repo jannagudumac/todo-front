@@ -1,0 +1,69 @@
+.dash-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; margin-bottom: 28px; flex-wrap: wrap;
+}
+.dash-header h1 { font-size: 1.6rem; font-weight: 800; color: #1e1b4b; margin: 0 0 4px; }
+.dash-header p  { font-size: 0.9rem; color: #6b7280; margin: 0; }
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px; margin-bottom: 36px;
+}
+
+.kpi-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 20px; border-radius: 14px; color: #fff;
+  position: relative; overflow: hidden;
+}
+.kpi-card::after {
+  content: ''; position: absolute; right: -20px; top: -20px;
+  width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.12);
+}
+
+.kpi-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.kpi-icon .material-icons { font-size: 22px; }
+
+.kpi-value { font-size: 2rem; font-weight: 800; line-height: 1; }
+.kpi-label { font-size: 0.75rem; opacity: 0.85; font-weight: 600; margin-top: 3px; }
+
+.kpi-1 { background: linear-gradient(135deg, #4f46e5, #6d28d9); }
+.kpi-2 { background: linear-gradient(135deg, #0284c7, #0ea5e9); }
+.kpi-3 { background: linear-gradient(135deg, #dc2626, #ef4444); }
+.kpi-4 { background: linear-gradient(135deg, #d97706, #f59e0b); }
+.kpi-5 { background: linear-gradient(135deg, #059669, #10b981); }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.project-card { display: block; padding: 18px 20px; text-decoration: none; color: inherit; }
+.project-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+
+.project-folder {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.project-folder .material-icons { color: #4f46e5; font-size: 20px; }
+
+.project-name     { font-weight: 700; font-size: 0.95rem; color: #1e1b4b; }
+.project-deadline { font-size: 0.75rem; color: #9ca3af; margin-top: 2px; }
+.project-pct      { margin-left: auto; font-size: 0.8rem; font-weight: 800; color: #4f46e5; }
+.project-pct.pct-done { color: #059669; }
+
+.progress-track {
+  height: 6px; background: rgba(79,70,229,0.1);
+  border-radius: 6px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  border-radius: 6px; transition: width 0.4s ease;
+}
+.project-tasks { font-size: 0.75rem; color: #9ca3af; margin-top: 8px; }

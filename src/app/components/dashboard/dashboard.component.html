@@ -1,45 +1,67 @@
-<div class="p-4 md:p-6">
+<div class="page page-fade">
+
+  <!-- Header -->
+  <div class="dash-header">
+    <div>
+      <h1>Tableau de bord</h1>
+      <p>Bienvenue sur PlanIt — voici votre espace de travail.</p>
+    </div>
+    <a routerLink="/projets" class="btn-primary">
+      <span class="material-icons" style="font-size:18px">add</span>
+      Nouveau projet
+    </a>
+  </div>
 
   <!-- KPI cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+  <div class="kpi-grid">
     @for(kpi of kpis; track kpi.id) {
-      <mat-card class="text-white p-4" [ngClass]="kpi.color">
-        <div class="flex items-center gap-x-3">
-          <mat-icon>{{ kpi.icon }}</mat-icon>
-          <div>
-            <div class="uppercase text-xs opacity-80 font-semibold">{{ kpi.title }}</div>
-            <div class="text-3xl font-bold">{{ kpi.value }}</div>
-          </div>
+      <div class="kpi-card" [class]="'kpi-' + kpi.id">
+        <div class="kpi-icon">
+          <span class="material-icons">{{ kpi.icon }}</span>
         </div>
-      </mat-card>
+        <div class="kpi-body">
+          <div class="kpi-value">{{ kpi.value }}</div>
+          <div class="kpi-label">{{ kpi.title }}</div>
+        </div>
+      </div>
     }
   </div>
 
-  <!-- Projects section -->
-  <h2 class="text-base font-bold mb-3" style="color:#4f46e5">Mes Projets</h2>
+  <!-- Projects -->
+  <div class="section-title">
+    <span class="material-icons" style="font-size:18px">folder_open</span>
+    Mes Projets
+  </div>
 
   @if(projetCards.length === 0) {
-    <div class="flex flex-col items-center py-10 opacity-40">
-      <mat-icon style="font-size:48px;width:48px;height:48px">folder_open</mat-icon>
-      <p class="mt-2">Aucun projet — <a routerLink="/projets" class="underline" style="color:#4f46e5">créez-en un</a></p>
+    <div class="empty-state">
+      <span class="material-icons">folder_open</span>
+      <p>Aucun projet — <a routerLink="/projets" style="color:#4f46e5;font-weight:700">créez-en un</a></p>
     </div>
   }
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="projects-grid">
     @for(projet of projetCards; track projet.id) {
-      <mat-card class="p-4 cursor-pointer hover:shadow-md transition-shadow" [routerLink]="['/projets', projet.id]">
-        <div class="flex items-center gap-2 mb-3">
-          <mat-icon style="color:#4f46e5">folder</mat-icon>
-          <span class="font-bold">{{ projet.title }}</span>
-          <span class="ml-auto text-xs opacity-50">{{ projet.doneTasks }}/{{ projet.totalTasks }}</span>
+      <a class="project-card planit-card clickable" [routerLink]="['/projets', projet.id]">
+        <div class="project-card-top">
+          <div class="project-folder">
+            <span class="material-icons">folder</span>
+          </div>
+          <div class="project-meta">
+            <div class="project-name">{{ projet.title }}</div>
+            @if(projet.deadline) {
+              <div class="project-deadline">{{ projet.deadline | date:'dd/MM/yyyy' }}</div>
+            }
+          </div>
+          <div class="project-pct" [class.pct-done]="projet.progress===100">
+            {{ projet.progress }}%
+          </div>
         </div>
-        <!-- Progress bar -->
-        <div class="w-full rounded-full h-2" style="background:rgba(79,70,229,0.12)">
-          <div class="h-2 rounded-full transition-all" style="background:linear-gradient(90deg,#4f46e5,#7c3aed)"
-               [style.width.%]="projet.progress"></div>
+        <div class="progress-track">
+          <div class="progress-fill" [style.width.%]="projet.progress"></div>
         </div>
-        <div class="text-xs opacity-50 mt-1 text-right">{{ projet.progress }}%</div>
-      </mat-card>
+        <div class="project-tasks">{{ projet.doneTasks }} / {{ projet.totalTasks }} tâches terminées</div>
+      </a>
     }
   </div>
 

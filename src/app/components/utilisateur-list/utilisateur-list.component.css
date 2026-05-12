@@ -1,0 +1,35 @@
+.access-denied {
+  display: flex; align-items: center; gap: 16px; padding: 20px 24px;
+  border-left: 4px solid #ef4444;
+}
+.access-denied .material-icons { font-size: 36px; color: #ef4444; }
+.access-denied strong { color: #1e1b4b; }
+.access-denied p { margin: 4px 0 0; font-size: 0.875rem; color: #6b7280; }
+
+.users-card { overflow: hidden; }
+
+.btn-promote {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 10px; border-radius: 7px; font-size: 0.78rem; font-weight: 700;
+  background: #eef2ff; color: #4f46e5; border: 1.5px solid #c7d2fe; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-promote:hover { background: #e0e7ff; }
+
+.btn-demote {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 10px; border-radius: 7px; font-size: 0.78rem; font-weight: 700;
+  background: #fef3c7; color: #d97706; border: 1.5px solid #fde68a; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-demote:hover { background: #fde68a; }
+
+.user-email {
+  display: flex; align-items: center; gap: 10px;
+}
+.user-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff; font-weight: 800; font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}

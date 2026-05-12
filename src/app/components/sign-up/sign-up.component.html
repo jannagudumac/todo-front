@@ -1,27 +1,54 @@
-<div
-  id="full-cover-background"
-  class="flex h-full items-center justify-center"
-  style="background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 50%, #ede9fe 100%)"
->
-  <div id="centered-block" class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm mx-4">
-    <div class="flex flex-col items-center mb-6">
-      <mat-icon style="font-size:40px; width:40px; height:40px; color:#7c3aed">person_add</mat-icon>
-      <h2 class="text-center m-0 mt-2" style="color:#1e1b4b; font-weight:800">Créer un compte</h2>
+<div class="signup-page">
+
+  <div class="signup-brand">
+    <div class="brand-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
     </div>
-    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="username" type="email" placeholder="Email" />
-        <mat-icon matSuffix>email</mat-icon>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Mot de passe</mat-label>
-        <input matInput formControlName="password" type="password" placeholder="Mot de passe" />
-        <mat-icon matSuffix>lock</mat-icon>
-      </mat-form-field>
-      <div id="button-container" class="flex flex-col gap-2 mt-1">
-        <button mat-flat-button type="submit" class="w-full">S'enregistrer</button>
+    <div class="brand-content">
+      <div class="brand-icon">
+        <span class="material-icons">rocket_launch</span>
       </div>
-    </form>
+      <h1 class="brand-name">PlanIt</h1>
+      <p class="brand-tagline">Rejoignez des équipes qui<br>organisent mieux leur travail.</p>
+    </div>
   </div>
+
+  <div class="signup-form-panel">
+    <div class="signup-form-box">
+      <h2 class="form-title">Créer un compte</h2>
+      <p class="form-subtitle">Remplissez le formulaire pour commencer.</p>
+
+      <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="form-fields">
+
+        <div class="field-group">
+          <label class="field-label">Adresse email</label>
+          <div class="field-wrap">
+            <span class="material-icons field-icon">mail_outline</span>
+            <input class="field-input" formControlName="username" type="email" placeholder="vous@exemple.com" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Mot de passe</label>
+          <div class="field-wrap">
+            <span class="material-icons field-icon">lock_outline</span>
+            <input class="field-input" formControlName="password" type="password" placeholder="••••••••" />
+          </div>
+        </div>
+
+        <button class="btn-submit" type="submit" [disabled]="signUpForm.invalid">
+          Créer mon compte
+          <span class="material-icons">arrow_forward</span>
+        </button>
+
+      </form>
+
+      <p class="login-link">
+        Déjà un compte ?
+        <a routerLink="/login">Se connecter</a>
+      </p>
+    </div>
+  </div>
+
 </div>

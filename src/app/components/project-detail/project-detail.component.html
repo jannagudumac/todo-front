@@ -19,13 +19,13 @@
   </div>
 
   <!-- Quick-add task -->
-  <form [formGroup]="addForm" (ngSubmit)="addTask()" class="flex gap-2 mb-5">
-    <mat-form-field appearance="outline" class="flex-1">
-      <mat-label>Nouvelle tâche</mat-label>
-      <input matInput formControlName="title" placeholder="Titre de la tâche">
-    </mat-form-field>
-    <button mat-fab type="submit" [disabled]="addForm.invalid">
-      <mat-icon>add</mat-icon>
+  <form [formGroup]="addForm" (ngSubmit)="addTask()" class="quick-add-form">
+    <div class="field-wrap" style="flex:1">
+      <span class="material-icons field-icon">add_task</span>
+      <input class="field-input" formControlName="title" placeholder="Ajouter une tâche...">
+    </div>
+    <button class="btn-primary" type="submit" [disabled]="addForm.invalid">
+      <span class="material-icons" style="font-size:18px">add</span>
     </button>
   </form>
 

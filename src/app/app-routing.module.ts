@@ -11,6 +11,7 @@ import { CalculatriceComponent } from './components/calculatrice/calculatrice.co
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { authGuard } from './auth.guard';
 
 /* path: lien saisi dans la barre de navigation
@@ -49,6 +50,9 @@ const routes: Routes = [
   },
   {
     path: 'contacts', component: ContactsComponent, canActivate: [authGuard]
+  },
+  {
+    path: 'profile', component: ProfileComponent, canActivate: [authGuard]
   }
 ];
 

@@ -1,100 +1,93 @@
-<div class="p-4 md:p-6">
+<div class="page page-fade">
 
-  <!-- Add project form -->
-  <mat-card class="mb-6 p-4">
-    <h2 class="text-lg font-bold mb-3" style="color:#4f46e5">Nouveau projet</h2>
-    <form [formGroup]="addForm" (ngSubmit)="addProjet()" class="flex flex-col sm:flex-row gap-3 items-start sm:items-center flex-wrap">
-      <mat-form-field appearance="outline" class="flex-1 min-w-48">
-        <mat-label>Nom du projet</mat-label>
-        <input matInput formControlName="title" placeholder="Ex: Refonte site web">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="flex-1 min-w-48">
-        <mat-label>Description</mat-label>
-        <input matInput formControlName="description" placeholder="Optionnel">
-      </mat-form-field>
-      <mat-form-field appearance="outline" style="width:180px">
-        <mat-label>Échéance</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="deadline">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <button mat-flat-button type="submit" [disabled]="addForm.invalid">
-        <mat-icon>add</mat-icon> Créer
+  <div class="page-header">
+    <h1>Projets</h1>
+    <p>Organisez votre travail en projets et suivez la progression.</p>
+  </div>
+
+  <!-- Add project -->
+  <div class="planit-card add-card">
+    <form [formGroup]="addForm" (ngSubmit)="addProjet()" class="add-form">
+      <div class="field-wrap" style="flex:2;min-width:180px">
+        <span class="material-icons field-icon">folder_open</span>
+        <input class="field-input" formControlName="title" placeholder="Nom du projet...">
+      </div>
+      <div class="field-wrap" style="flex:2;min-width:180px">
+        <span class="material-icons field-icon">notes</span>
+        <input class="field-input" formControlName="description" placeholder="Description (optionnel)">
+      </div>
+      <div class="field-wrap" style="width:180px">
+        <span class="material-icons field-icon">calendar_today</span>
+        <input class="field-input" type="date" formControlName="deadline">
+      </div>
+      <button class="btn-primary" type="submit" [disabled]="addForm.invalid">
+        <span class="material-icons" style="font-size:18px">add</span> Créer
       </button>
     </form>
-  </mat-card>
+  </div>
 
   <!-- Loading -->
   @if(loading) {
-    <div class="flex justify-center py-12">
+    <div style="display:flex;justify-content:center;padding:48px">
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   }
 
   <!-- Empty state -->
   @if(!loading && projets.length === 0) {
-    <div class="flex flex-col items-center py-16 opacity-50">
-      <mat-icon style="font-size:64px;width:64px;height:64px;color:#4f46e5">folder_open</mat-icon>
-      <p class="mt-4 text-lg">Aucun projet pour l'instant. Créez-en un !</p>
+    <div class="empty-state">
+      <span class="material-icons">folder_open</span>
+      <p>Aucun projet pour l'instant. Créez-en un !</p>
     </div>
   }
 
-  <!-- Project cards grid -->
+  <!-- Cards grid -->
   @if(!loading && projets.length > 0) {
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="projects-grid">
       @for(projet of projets; track projet.id) {
-        <mat-card class="cursor-pointer hover:shadow-md transition-shadow p-4" (click)="openProjet(projet.id)">
+        <div class="planit-card clickable project-card" (click)="openProjet(projet.id)">
 
-          <!-- Header -->
-          <div class="flex items-start justify-between mb-3">
-            <div class="flex items-center gap-2">
-              <mat-icon style="color:#4f46e5">folder</mat-icon>
-              <h3 class="font-bold text-base m-0">{{ projet.title }}</h3>
+          <div class="project-card-head">
+            <div class="project-icon">
+              <span class="material-icons">folder</span>
             </div>
-            <button mat-icon-button (click)="deleteProjet(projet.id, $event)" class="text-red-400" style="width:32px;height:32px">
-              <mat-icon style="font-size:18px">delete</mat-icon>
+            <div style="min-width:0;flex:1">
+              <div class="project-title">{{ projet.title }}</div>
+              @if(projet.description) {
+                <div class="project-desc line-clamp-2">{{ projet.description }}</div>
+              }
+            </div>
+            <button class="delete-btn" (click)="deleteProjet(projet.id, $event)">
+              <span class="material-icons">delete_outline</span>
             </button>
           </div>
 
-          <!-- Description -->
-          @if(projet.description) {
-            <p class="text-sm opacity-60 mb-3 line-clamp-2">{{ projet.description }}</p>
-          }
-
-          <!-- Deadline badge -->
-          @if(projet.deadline) {
-            <div class="mb-3">
-              @if(projet.isOverdue) {
-                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background:#fee2e2;color:#dc2626">
-                  <mat-icon style="font-size:12px;vertical-align:middle">warning</mat-icon>
-                  En retard — {{ projet.deadline | date:'dd/MM/yyyy' }}
-                </span>
-              } @else if(projet.isDueSoon) {
-                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background:#fef3c7;color:#d97706">
-                  <mat-icon style="font-size:12px;vertical-align:middle">schedule</mat-icon>
-                  Bientôt — {{ projet.deadline | date:'dd/MM/yyyy' }}
-                </span>
-              } @else {
-                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background:#d1fae5;color:#059669">
-                  {{ projet.deadline | date:'dd/MM/yyyy' }}
-                </span>
-              }
+          <div class="project-progress">
+            <div class="progress-track">
+              <div class="progress-fill" [style.width.%]="projet.progress"></div>
             </div>
-          }
-
-          <!-- Progress -->
-          <div class="mt-2">
-            <div class="flex justify-between text-xs opacity-60 mb-1">
-              <span>{{ projet.doneTasks }} / {{ projet.totalTasks }} tâches terminées</span>
+            <div class="progress-row">
+              <span>{{ projet.doneTasks }}/{{ projet.totalTasks }} tâches</span>
               <span>{{ projet.progress }}%</span>
-            </div>
-            <div class="w-full rounded-full h-2" style="background:rgba(79,70,229,0.12)">
-              <div class="h-2 rounded-full transition-all" style="background:linear-gradient(90deg,#4f46e5,#7c3aed)"
-                   [style.width.%]="projet.progress"></div>
             </div>
           </div>
 
-        </mat-card>
+          <div class="project-footer">
+            @if(projet.deadline) {
+              @if(projet.isOverdue) {
+                <span class="badge badge-red">En retard — {{ projet.deadline | date:'dd/MM/yyyy' }}</span>
+              } @else if(projet.isDueSoon) {
+                <span class="badge badge-amber">Bientôt — {{ projet.deadline | date:'dd/MM/yyyy' }}</span>
+              } @else {
+                <span class="badge badge-green">{{ projet.deadline | date:'dd/MM/yyyy' }}</span>
+              }
+            }
+            @if(projet.progress === 100) {
+              <span class="badge badge-green">✓ Terminé</span>
+            }
+          </div>
+
+        </div>
       }
     </div>
   }

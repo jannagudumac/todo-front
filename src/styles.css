@@ -1,11 +1,234 @@
-/* importer tailwind dans le fichier global style.css
-qui va etre injecte dans tous les pages
-*/
-
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
 
+/* ══════════════════════════════════════════
+   BASE — Light Bootstrap Dashboard inspired
+   ══════════════════════════════════════════ */
 
-/* Code injecte automatiquement apres l'installation material */
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  color: #3c3c3c;
+  background-color: #f0f2f5;
+}
+
+/* Reset link decoration globally */
+a { text-decoration: none; color: inherit; }
+a:hover { text-decoration: none; }
+
+/* ══════════════════════════════════════════
+   LAYOUT
+   ══════════════════════════════════════════ */
+
+.page { padding: 24px 28px; max-width: 1200px; }
+
+.page-header { margin-bottom: 28px; }
+.page-header h1 {
+  font-size: 1.5rem; font-weight: 800; color: #1a1a2e; margin: 0 0 4px;
+}
+.page-header p { font-size: 0.875rem; color: #9a9a9a; margin: 0; }
+
+.section-title {
+  font-size: 0.8rem; font-weight: 700; color: #9a9a9a;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin: 0 0 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title::after {
+  content: ''; flex: 1; height: 1px; background: #ebebeb;
+}
+
+/* ══════════════════════════════════════════
+   CARD  (LBD-style: white, soft shadow)
+   ══════════════════════════════════════════ */
+
+.planit-card {
+  background: #fff;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.12);
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.planit-card:hover { box-shadow: 0 4px 14px 0 rgba(0,0,0,.16); }
+.planit-card.clickable { cursor: pointer; }
+.planit-card.clickable:hover { transform: translateY(-2px); }
+
+/* ══════════════════════════════════════════
+   FORM INPUTS
+   ══════════════════════════════════════════ */
+
+.field-group { display: flex; flex-direction: column; gap: 5px; }
+.field-label {
+  font-size: 0.8rem; font-weight: 700; color: #aaaaaa;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+.field-wrap { position: relative; }
+.field-wrap .field-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 18px; color: #bdbdbd; pointer-events: none; transition: color 0.2s;
+}
+.field-wrap:focus-within .field-icon { color: #4f46e5; }
+
+.field-input, .field-textarea {
+  width: 100%;
+  padding: 10px 12px 10px 40px;
+  border: 1px solid #d2d2d2;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #3c3c3c;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+.field-input.no-icon, .field-textarea.no-icon { padding-left: 12px; }
+.field-input::placeholder, .field-textarea::placeholder { color: #bdbdbd; }
+.field-input:focus, .field-textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.04), 0 0 0 3px rgba(79,70,229,0.1);
+}
+.field-textarea { padding-top: 10px; resize: vertical; min-height: 90px; }
+
+/* ══════════════════════════════════════════
+   SELECT  (native, styled)
+   ══════════════════════════════════════════ */
+
+.select-wrap { position: relative; }
+.select-wrap::after {
+  content: '';
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-65%) rotate(45deg);
+  width: 5px; height: 5px;
+  border-right: 2px solid #9a9a9a; border-bottom: 2px solid #9a9a9a;
+  pointer-events: none;
+}
+.field-select {
+  padding-left: 12px !important;
+  padding-right: 34px !important;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════════
+   BUTTONS
+   ══════════════════════════════════════════ */
+
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff; border: none; border-radius: 4px;
+  font-family: inherit; font-size: 0.875rem; font-weight: 700;
+  cursor: pointer; text-decoration: none;
+  transition: box-shadow 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.35);
+  white-space: nowrap; line-height: 1;
+}
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 4px 14px rgba(79,70,229,0.45);
+  transform: translateY(-1px);
+  color: #fff; text-decoration: none;
+}
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px;
+  background: transparent; color: #4f46e5;
+  border: 1px solid #c7d2fe; border-radius: 4px;
+  font-family: inherit; font-size: 0.875rem; font-weight: 700;
+  cursor: pointer; text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-ghost:hover { background: #eef2ff; border-color: #4f46e5; text-decoration: none; }
+
+.btn-danger {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 7px 14px;
+  background: transparent; color: #ef4444;
+  border: 1px solid #fca5a5; border-radius: 4px;
+  font-family: inherit; font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s; text-decoration: none;
+}
+.btn-danger:hover { background: #fef2f2; border-color: #ef4444; }
+
+.btn-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border: none; border-radius: 4px;
+  background: transparent; cursor: pointer; transition: background 0.15s;
+  color: #9a9a9a; text-decoration: none;
+}
+.btn-icon:hover { background: #f0f2ff; color: #4f46e5; }
+.btn-icon.danger:hover { background: #fef2f2; color: #ef4444; }
+
+/* ══════════════════════════════════════════
+   BADGES
+   ══════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 10px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em;
+}
+.badge-indigo { background: #eef2ff; color: #4f46e5; }
+.badge-red    { background: #fee2e2; color: #dc2626; }
+.badge-amber  { background: #fef3c7; color: #d97706; }
+.badge-green  { background: #d1fae5; color: #059669; }
+.badge-gray   { background: #f3f4f6; color: #6b7280; }
+
+/* ══════════════════════════════════════════
+   MAT-FORM-FIELD OVERRIDES (make consistent)
+   ══════════════════════════════════════════ */
+
+/* Outline borders match field-input */
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: #d2d2d2 !important;
+  border-width: 1px !important;
+}
+.mat-mdc-form-field .mdc-notched-outline__leading { border-radius: 4px 0 0 4px !important; }
+.mat-mdc-form-field .mdc-notched-outline__trailing { border-radius: 0 4px 4px 0 !important; }
+
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #4f46e5 !important;
+}
+
+/* Input text inside mat-form-field */
+.mat-mdc-form-field input.mat-mdc-input-element {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 0.9rem !important;
+  color: #3c3c3c !important;
+}
+
+/* Chip input */
+.mat-mdc-chip { border-radius: 4px !important; }
+
+/* ══════════════════════════════════════════
+   EMPTY STATE
+   ══════════════════════════════════════════ */
+
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 56px 24px; color: #bdbdbd; text-align: center;
+}
+.empty-state .material-icons { font-size: 52px; margin-bottom: 12px; }
+.empty-state p { font-size: 0.95rem; margin: 0; }
+
+/* ══════════════════════════════════════════
+   ANIMATION
+   ══════════════════════════════════════════ */
+
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-fade { animation: pageFade 0.3s ease both; }

@@ -1,35 +1,79 @@
-<ng-container *ngIf="!accessDenied">
-  <table mat-table [dataSource]="utilisateur" class="mat-elevation-z8">
-    <!-- columns here -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let user"> {{user.id}} </td>
-    </ng-container>
+<div class="page page-fade">
 
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef> Username </th>
-      <td mat-cell *matCellDef="let user"> {{user.username}} </td>
-    </ng-container>
+  <div class="page-header">
+    <h1>Gestion des utilisateurs</h1>
+    <p>Administration des comptes. Le premier utilisateur inscrit est automatiquement administrateur.</p>
+  </div>
 
-    <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef> Role </th>
-      <td mat-cell *matCellDef="let user"> {{user.role}} </td>
-    </ng-container>
+  @if(accessDenied) {
+    <div class="access-denied planit-card">
+      <span class="material-icons">lock</span>
+      <div>
+        <strong>Accès refusé</strong>
+        <p>Vous n'avez pas les droits pour accéder à cette page.</p>
+      </div>
+    </div>
+  }
 
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let user">
-        <button mat-icon-button color="warn" (click)="deleteUser(user.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+  @if(!accessDenied) {
+    <div class="planit-card users-card">
+      <table mat-table [dataSource]="utilisateur" class="w-full">
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</ng-container>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+        </ng-container>
 
-<ng-container *ngIf="accessDenied">
-  <p>You are not authorized to access this page.</p>
-</ng-container>
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let user">
+            <div class="user-email">
+              <div class="user-avatar">{{ (user.username || '?').charAt(0).toUpperCase() }}</div>
+              {{ user.username }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Rôle</th>
+          <td mat-cell *matCellDef="let user">
+            @if(user.role === 'admin') {
+              <span class="badge badge-indigo">
+                <span class="material-icons" style="font-size:11px">admin_panel_settings</span>
+                Admin
+              </span>
+            } @else {
+              <span class="badge badge-gray">Utilisateur</span>
+            }
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let user">
+            <div style="display:flex;gap:6px;align-items:center">
+              @if(user.role !== 'admin') {
+                <button class="btn-promote" (click)="promote(user.id)" title="Promouvoir en admin">
+                  <span class="material-icons" style="font-size:15px">arrow_upward</span>
+                  Admin
+                </button>
+              } @else {
+                <button class="btn-demote" (click)="demote(user.id)" title="Rétrograder">
+                  <span class="material-icons" style="font-size:15px">arrow_downward</span>
+                  Utilisateur
+                </button>
+              }
+              <button class="btn-icon danger" (click)="deleteUser(user.id)">
+                <span class="material-icons" style="font-size:18px">delete_outline</span>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  }
+
+</div>

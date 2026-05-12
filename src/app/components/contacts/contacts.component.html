@@ -1,77 +1,65 @@
-<div class="p-4 md:p-6">
+<div class="page page-fade">
 
-  <h1 class="text-xl font-bold mb-5" style="color:#4f46e5">Membres de l'équipe</h1>
+  <div class="page-header">
+    <h1>Membres de l'équipe</h1>
+    <p>Gérez les contacts associés à vos tâches.</p>
+  </div>
 
   <!-- Add form -->
-  <mat-card class="mb-5 p-4">
-    <form [formGroup]="addForm" (ngSubmit)="add()" class="flex gap-3 items-center">
-      <mat-form-field appearance="outline" class="flex-1">
-        <mat-label>Nom du membre</mat-label>
-        <input matInput formControlName="name" placeholder="Ex: Alice Dupont">
-        <mat-icon matSuffix>person_add</mat-icon>
-      </mat-form-field>
-      <button mat-flat-button type="submit" [disabled]="addForm.invalid">
-        <mat-icon>add</mat-icon> Ajouter
+  <div class="planit-card add-bar">
+    <form [formGroup]="addForm" (ngSubmit)="add()" class="add-form">
+      <div class="field-wrap" style="flex:1">
+        <span class="material-icons field-icon">person_outline</span>
+        <input class="field-input" formControlName="name" placeholder="Nom du membre...">
+      </div>
+      <button class="btn-primary" type="submit" [disabled]="addForm.invalid">
+        <span class="material-icons" style="font-size:18px">person_add</span>
+        Ajouter
       </button>
     </form>
-  </mat-card>
+  </div>
 
-  <!-- Table -->
-  <mat-card class="overflow-x-auto">
-    <table mat-table [dataSource]="contacts" class="w-full">
+  <!-- Members list -->
+  @if(contacts.length === 0) {
+    <div class="empty-state">
+      <span class="material-icons">group_off</span>
+      <p>Aucun membre pour l'instant.</p>
+    </div>
+  }
 
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let c">{{ c.id }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Nom</th>
-        <td mat-cell *matCellDef="let c">
-          @if(editingId === c.id) {
-            <mat-form-field appearance="outline" style="margin:0;width:200px">
-              <input matInput [(ngModel)]="editName">
-            </mat-form-field>
+  <div class="members-list">
+    @for(contact of contacts; track contact.id) {
+      <div class="member-row planit-card">
+        <div class="member-avatar">
+          {{ (contact.name || '?').charAt(0).toUpperCase() }}
+        </div>
+        <div class="member-info">
+          @if(editingId === contact.id) {
+            <input class="field-input no-icon" [(ngModel)]="editName" style="max-width:240px">
           } @else {
-            <div class="flex items-center gap-2">
-              <mat-icon style="color:#7c3aed;font-size:18px">person</mat-icon>
-              {{ c.name }}
-            </div>
+            <span class="member-name">{{ contact.name }}</span>
+            <span class="member-id">ID {{ contact.id }}</span>
           }
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let c">
-          @if(editingId === c.id) {
-            <button mat-icon-button (click)="saveEdit(c)" style="color:#059669">
-              <mat-icon>check</mat-icon>
+        </div>
+        <div class="member-actions">
+          @if(editingId === contact.id) {
+            <button class="btn-icon" (click)="saveEdit(contact)" style="color:#059669">
+              <span class="material-icons" style="font-size:18px">check</span>
             </button>
-            <button mat-icon-button (click)="cancelEdit()">
-              <mat-icon>close</mat-icon>
+            <button class="btn-icon" (click)="cancelEdit()">
+              <span class="material-icons" style="font-size:18px">close</span>
             </button>
           } @else {
-            <button mat-icon-button (click)="startEdit(c)" style="color:#4f46e5">
-              <mat-icon>edit</mat-icon>
+            <button class="btn-icon" (click)="startEdit(contact)">
+              <span class="material-icons" style="font-size:18px">edit</span>
             </button>
-            <button mat-icon-button (click)="delete(c.id)" style="color:#ef4444">
-              <mat-icon>delete</mat-icon>
+            <button class="btn-icon danger" (click)="delete(contact.id)">
+              <span class="material-icons" style="font-size:18px">delete_outline</span>
             </button>
           }
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    @if(contacts.length === 0) {
-      <div class="flex flex-col items-center py-10 opacity-40">
-        <mat-icon style="font-size:48px;width:48px;height:48px">group_off</mat-icon>
-        <p class="mt-2">Aucun membre pour l'instant</p>
+        </div>
       </div>
     }
-  </mat-card>
+  </div>
 
 </div>
