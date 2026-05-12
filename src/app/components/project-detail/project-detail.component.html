@@ -1,0 +1,119 @@
+<div class="p-4 md:p-6 h-full flex flex-col">
+
+  <!-- Header -->
+  <div class="flex items-center gap-3 mb-5">
+    <button mat-icon-button routerLink="/projets">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div>
+      <h1 class="text-xl font-bold m-0" style="color:#4f46e5">{{ projet?.title }}</h1>
+      @if(projet?.description) {
+        <p class="text-sm opacity-60 m-0">{{ projet?.description }}</p>
+      }
+    </div>
+    @if(projet?.deadline) {
+      <span class="ml-auto text-xs px-2 py-1 rounded-full font-semibold" style="background:#eef2ff;color:#4f46e5">
+        Échéance : {{ projet?.deadline | date:'dd/MM/yyyy' }}
+      </span>
+    }
+  </div>
+
+  <!-- Quick-add task -->
+  <form [formGroup]="addForm" (ngSubmit)="addTask()" class="flex gap-2 mb-5">
+    <mat-form-field appearance="outline" class="flex-1">
+      <mat-label>Nouvelle tâche</mat-label>
+      <input matInput formControlName="title" placeholder="Titre de la tâche">
+    </mat-form-field>
+    <button mat-fab type="submit" [disabled]="addForm.invalid">
+      <mat-icon>add</mat-icon>
+    </button>
+  </form>
+
+  <!-- Kanban board -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 overflow-auto">
+
+    <!-- TODO column -->
+    <div class="flex flex-col gap-2">
+      <div class="kanban-header" style="background:#eef2ff;color:#4f46e5">
+        <mat-icon>radio_button_unchecked</mat-icon>
+        <span>À faire</span>
+        <span class="ml-auto kanban-count">{{ todoTasks.length }}</span>
+      </div>
+      @for(task of todoTasks; track task.id) {
+        <mat-card class="task-card" (click)="openDetail(task.id)">
+          <div class="flex items-start justify-between gap-2">
+            <span class="font-medium text-sm flex-1">{{ task.title }}</span>
+            <button mat-icon-button class="task-delete" (click)="deleteTask(task.id, $event)">
+              <mat-icon style="font-size:16px">close</mat-icon>
+            </button>
+          </div>
+          <div class="flex items-center gap-2 mt-2 flex-wrap">
+            @if(task.priority) {
+              <span class="badge" [style.color]="priorityColor(task.priority)">{{ priorityLabel(task.priority) }}</span>
+            }
+            @if(task.dueDate) {
+              <span class="badge text-gray-400">{{ task.dueDate | date:'dd/MM' }}</span>
+            }
+          </div>
+          <div class="flex gap-1 mt-2">
+            <button mat-stroked-button class="status-btn" (click)="setStatus(task, 'IN_PROGRESS'); $event.stopPropagation()">En cours →</button>
+          </div>
+        </mat-card>
+      }
+    </div>
+
+    <!-- IN_PROGRESS column -->
+    <div class="flex flex-col gap-2">
+      <div class="kanban-header" style="background:#fef3c7;color:#d97706">
+        <mat-icon>pending</mat-icon>
+        <span>En cours</span>
+        <span class="ml-auto kanban-count">{{ inProgressTasks.length }}</span>
+      </div>
+      @for(task of inProgressTasks; track task.id) {
+        <mat-card class="task-card" (click)="openDetail(task.id)">
+          <div class="flex items-start justify-between gap-2">
+            <span class="font-medium text-sm flex-1">{{ task.title }}</span>
+            <button mat-icon-button class="task-delete" (click)="deleteTask(task.id, $event)">
+              <mat-icon style="font-size:16px">close</mat-icon>
+            </button>
+          </div>
+          <div class="flex items-center gap-2 mt-2 flex-wrap">
+            @if(task.priority) {
+              <span class="badge" [style.color]="priorityColor(task.priority)">{{ priorityLabel(task.priority) }}</span>
+            }
+            @if(task.dueDate) {
+              <span class="badge text-gray-400">{{ task.dueDate | date:'dd/MM' }}</span>
+            }
+          </div>
+          <div class="flex gap-1 mt-2 flex-wrap">
+            <button mat-stroked-button class="status-btn" (click)="setStatus(task, 'TODO'); $event.stopPropagation()">← À faire</button>
+            <button mat-stroked-button class="status-btn" (click)="setStatus(task, 'DONE'); $event.stopPropagation()">Terminé →</button>
+          </div>
+        </mat-card>
+      }
+    </div>
+
+    <!-- DONE column -->
+    <div class="flex flex-col gap-2">
+      <div class="kanban-header" style="background:#d1fae5;color:#059669">
+        <mat-icon>check_circle</mat-icon>
+        <span>Terminé</span>
+        <span class="ml-auto kanban-count">{{ doneTasks.length }}</span>
+      </div>
+      @for(task of doneTasks; track task.id) {
+        <mat-card class="task-card done-card" (click)="openDetail(task.id)">
+          <div class="flex items-start justify-between gap-2">
+            <span class="font-medium text-sm flex-1 line-through opacity-60">{{ task.title }}</span>
+            <button mat-icon-button class="task-delete" (click)="deleteTask(task.id, $event)">
+              <mat-icon style="font-size:16px">close</mat-icon>
+            </button>
+          </div>
+          <div class="flex gap-1 mt-2">
+            <button mat-stroked-button class="status-btn" (click)="setStatus(task, 'IN_PROGRESS'); $event.stopPropagation()">← Rouvrir</button>
+          </div>
+        </mat-card>
+      }
+    </div>
+
+  </div>
+</div>

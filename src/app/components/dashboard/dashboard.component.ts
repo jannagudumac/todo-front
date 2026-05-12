@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { TodoService } from '../../services/todo.service';
+import { ProjetService } from '../../services/projet.service';
 import { Todo } from '../../models/todo.model';
+import { Projet } from '../../models/projet.model';
+
+interface ProjetCard extends Projet {
+  totalTasks: number;
+  doneTasks: number;
+  progress: number;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -10,130 +19,57 @@ import { Todo } from '../../models/todo.model';
 })
 export class DashboardComponent implements OnInit {
   todos: Todo[] = [];
-
-  //KPI
-  //KeyPerformanceIndicators
-  //Indicateur de performances clés
-  //Comme un tableau de voitures: essence, huile, temperature..
+  projetCards: ProjetCard[] = [];
 
   kpis = [
-    {
-      id:1,
-      title: 'A faire aujourdh\'ui',
-      color: '!bg-blue-500',
-      value: 0,
-      icon: 'event'
-    },
-    {
-      id:2,
-      title: 'Taches en retard',
-      color: '!bg-red-500',
-      value: 0,
-      icon: 'warning'
-    },
-    {
-      id:3,
-      title: 'Urgentes',
-      color: '!bg-yellow-500',
-      value: 0,
-      icon: 'priority_high'
-    }
+    { id: 1, title: 'Projets actifs',      color: '!bg-indigo-500', value: 0, icon: 'folder_open' },
+    { id: 2, title: 'À faire aujourd\'hui', color: '!bg-sky-500',    value: 0, icon: 'event' },
+    { id: 3, title: 'En retard',            color: '!bg-red-500',    value: 0, icon: 'warning' },
+    { id: 4, title: 'Urgentes',             color: '!bg-amber-500',  value: 0, icon: 'priority_high' },
+    { id: 5, title: 'Terminées',            color: '!bg-emerald-500',value: 0, icon: 'check_circle' }
   ];
 
-  constructor(private todoService : TodoService) {
-
-  }
+  constructor(
+    private todoService: TodoService,
+    private projetService: ProjetService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchTodo();
-  }
+    forkJoin({
+      todos: this.todoService.getTodos(),
+      projets: this.projetService.getAll()
+    }).subscribe(({ todos, projets }) => {
+      this.todos = todos;
 
-  
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
 
+      // KPIs
+      this.projetCards = projets.map(p => {
+        const tasks = todos.filter(t => t.projetId === p.id);
+        const done = tasks.filter(t => t.status === 'DONE' || t.completed).length;
+        return {
+          ...p,
+          totalTasks: tasks.length,
+          doneTasks: done,
+          progress: tasks.length > 0 ? Math.round((done / tasks.length) * 100) : 0
+        };
+      });
 
-  /* fetchTodo() {
-    //Communication asynchrone donc il faut s'inscrire pour avoir le retour
-    this.todoService.getTodos().subscribe((data) => {
-      this.todos = data;
-      //new Date() sans paramètres retourne "today"
-      
-      //par defaut il va mettre hours = 0 minutes = 0
-      let today = new Date(2025,5,10);
-      let countUrgent = 0, countToday = 0, countLate = 0;
+      this.kpis[0].value = this.projetCards.filter(p => p.progress < 100).length;
 
-      //Urgentes: priority = 1 Et due date = Aujourd'hui
-      //"==" n'est pas utilisable avec les objets Date
-      //pour cela je convertis en string avec la fonction .toDateString()
-      //afin de pouvoir utiliser "=="
-      countUrgent = this.todos.filter(c=>
-        c.priority == '1' &&
-        new Date(c.dueDate).toDateString() == today.toDateString()).length;
+      this.kpis[1].value = todos.filter(t =>
+        t.dueDate && new Date(t.dueDate).toDateString() === today.toDateString()
+      ).length;
 
-      this.kpis[2].value = countUrgent;
+      this.kpis[2].value = todos.filter(t =>
+        t.dueDate && new Date(t.dueDate) < today &&
+        t.status !== 'DONE' && !t.completed
+      ).length;
 
-      //A faire aujourd'hui: due date = Aujourd'hui
-      //En utilisant la boucle for/of pour travers la liste todos
-      //Remplir la variable de countToday
-      for(let item of this.todos) {
-        if(new Date(item.dueDate).toDateString() == today.toDateString())
-          countToday ++;
-      }
-      this.kpis[0].value = countToday;
+      this.kpis[3].value = todos.filter(t => t.priority === '1').length;
 
-      //Tache en retard: due date < Aujourd'hui
-      for(let i = 0; i < this.todos.length; i++) {
-
-        if(new Date(this.todos[i].dueDate) < today)
-          countLate = countLate + 1;
-      }
-      this.kpis[1].value = countLate;
-
-    });
-  }*/
-
-  //FIX DASHBOARD TAREK
-  
-  fetchTodo() {
-    //Communication asynchrone donc il faut s'inscrire pour avoir le retour
-    this.todoService.getTodos().subscribe((data) => {
-      this.todos = data;
-      //new Date() sans paramètres retourne "today"
-      
-      //par defaut il va mettre hours = 0 minutes = 0
-      let today = new Date();
-      today.setHours(0);
-      today.setMinutes(0);
-      today.setSeconds(0);
-      let countUrgent = 0, countToday = 0, countLate = 0;
-
-      //Urgentes: priority = 1 Et due date = Aujourd'hui
-      //"==" n'est pas utilisable avec les objets Date
-      //pour cela je convertis en string avec la fonction .toDateString()
-      //afin de pouvoir utiliser "=="
-      countUrgent = this.todos.filter(c=>
-        c.priority == '1' &&
-        new Date(c.dueDate).toDateString() == today.toDateString()).length;
-
-      this.kpis[2].value = countUrgent;
-
-      //A faire aujourd'hui: due date = Aujourd'hui
-      //En utilisant la boucle for/of pour travers la liste todos
-      //Remplir la variable de countToday
-      for(let item of this.todos) {
-        if(new Date(item.dueDate).toDateString() == today.toDateString())
-          countToday ++;
-      }
-      this.kpis[0].value = countToday;
-
-      //Tache en retard: due date < Aujourd'hui
-      for(let i = 0; i < this.todos.length; i++) {
-
-        if(new Date(this.todos[i].dueDate) < today)
-          countLate = countLate + 1;
-      }
-      this.kpis[1].value = countLate;
-
+      this.kpis[4].value = todos.filter(t => t.status === 'DONE' || t.completed).length;
     });
   }
-
 }

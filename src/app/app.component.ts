@@ -13,7 +13,7 @@ import { AuthService } from './services/auth.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
-  title = 'Todo-list';
+  title = 'PlanIt';
   isMobile: boolean;
   @ViewChild('sidenav') sidenav?: MatSidenav;
   private subs = new Subscription();

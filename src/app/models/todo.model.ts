@@ -20,5 +20,5 @@ export interface Todo {
 
     memberIds : (number | null)[];
     projetId?: number | null;
-
+    status?: 'TODO' | 'IN_PROGRESS' | 'DONE' | null;
 }

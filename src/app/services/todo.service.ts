@@ -51,4 +51,8 @@ export class TodoService {
     return this.http.delete(this.apiURL +'/'+ id);
   }
 
+  getTodosByProjet(projetId: number) {
+    return this.http.get<Todo[]>(`${this.apiURL}/projet/${projetId}`);
+  }
+
 }

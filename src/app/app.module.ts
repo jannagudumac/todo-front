@@ -32,8 +32,12 @@ import { CalculatriceComponent } from './components/calculatrice/calculatrice.co
 import { MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LayoutModule } from '@angular/cdk/layout';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { ProjectListComponent } from './components/project-list/project-list.component';
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
 
 
 
@@ -47,7 +51,10 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     TodoDetailComponent,
     TodoTableComponent,
     DashboardComponent,
-    CalculatriceComponent
+    CalculatriceComponent,
+    ProjectListComponent,
+    ProjectDetailComponent,
+    ContactsComponent
   ],
   imports: [
     //Importer les modules pour pouvoir utiliser 
@@ -71,6 +78,7 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     MatChipsModule,
     MatAutocompleteModule,
     MatDividerModule,
+    MatProgressSpinnerModule,
     LayoutModule,
     FormsModule,
 

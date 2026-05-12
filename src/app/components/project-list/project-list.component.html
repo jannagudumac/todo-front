@@ -1,0 +1,102 @@
+<div class="p-4 md:p-6">
+
+  <!-- Add project form -->
+  <mat-card class="mb-6 p-4">
+    <h2 class="text-lg font-bold mb-3" style="color:#4f46e5">Nouveau projet</h2>
+    <form [formGroup]="addForm" (ngSubmit)="addProjet()" class="flex flex-col sm:flex-row gap-3 items-start sm:items-center flex-wrap">
+      <mat-form-field appearance="outline" class="flex-1 min-w-48">
+        <mat-label>Nom du projet</mat-label>
+        <input matInput formControlName="title" placeholder="Ex: Refonte site web">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="flex-1 min-w-48">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" placeholder="Optionnel">
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width:180px">
+        <mat-label>Échéance</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="deadline">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button mat-flat-button type="submit" [disabled]="addForm.invalid">
+        <mat-icon>add</mat-icon> Créer
+      </button>
+    </form>
+  </mat-card>
+
+  <!-- Loading -->
+  @if(loading) {
+    <div class="flex justify-center py-12">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+
+  <!-- Empty state -->
+  @if(!loading && projets.length === 0) {
+    <div class="flex flex-col items-center py-16 opacity-50">
+      <mat-icon style="font-size:64px;width:64px;height:64px;color:#4f46e5">folder_open</mat-icon>
+      <p class="mt-4 text-lg">Aucun projet pour l'instant. Créez-en un !</p>
+    </div>
+  }
+
+  <!-- Project cards grid -->
+  @if(!loading && projets.length > 0) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for(projet of projets; track projet.id) {
+        <mat-card class="cursor-pointer hover:shadow-md transition-shadow p-4" (click)="openProjet(projet.id)">
+
+          <!-- Header -->
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <mat-icon style="color:#4f46e5">folder</mat-icon>
+              <h3 class="font-bold text-base m-0">{{ projet.title }}</h3>
+            </div>
+            <button mat-icon-button (click)="deleteProjet(projet.id, $event)" class="text-red-400" style="width:32px;height:32px">
+              <mat-icon style="font-size:18px">delete</mat-icon>
+            </button>
+          </div>
+
+          <!-- Description -->
+          @if(projet.description) {
+            <p class="text-sm opacity-60 mb-3 line-clamp-2">{{ projet.description }}</p>
+          }
+
+          <!-- Deadline badge -->
+          @if(projet.deadline) {
+            <div class="mb-3">
+              @if(projet.isOverdue) {
+                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background:#fee2e2;color:#dc2626">
+                  <mat-icon style="font-size:12px;vertical-align:middle">warning</mat-icon>
+                  En retard — {{ projet.deadline | date:'dd/MM/yyyy' }}
+                </span>
+              } @else if(projet.isDueSoon) {
+                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background:#fef3c7;color:#d97706">
+                  <mat-icon style="font-size:12px;vertical-align:middle">schedule</mat-icon>
+                  Bientôt — {{ projet.deadline | date:'dd/MM/yyyy' }}
+                </span>
+              } @else {
+                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background:#d1fae5;color:#059669">
+                  {{ projet.deadline | date:'dd/MM/yyyy' }}
+                </span>
+              }
+            </div>
+          }
+
+          <!-- Progress -->
+          <div class="mt-2">
+            <div class="flex justify-between text-xs opacity-60 mb-1">
+              <span>{{ projet.doneTasks }} / {{ projet.totalTasks }} tâches terminées</span>
+              <span>{{ projet.progress }}%</span>
+            </div>
+            <div class="w-full rounded-full h-2" style="background:rgba(79,70,229,0.12)">
+              <div class="h-2 rounded-full transition-all" style="background:linear-gradient(90deg,#4f46e5,#7c3aed)"
+                   [style.width.%]="projet.progress"></div>
+            </div>
+          </div>
+
+        </mat-card>
+      }
+    </div>
+  }
+
+</div>

@@ -8,6 +8,9 @@ import { TodoDetailComponent } from './components/todo-detail/todo-detail.compon
 import { TodoTableComponent } from './components/todo-table/todo-table.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CalculatriceComponent } from './components/calculatrice/calculatrice.component';
+import { ProjectListComponent } from './components/project-list/project-list.component';
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
 import { authGuard } from './auth.guard';
 
 /* path: lien saisi dans la barre de navigation
@@ -37,6 +40,15 @@ const routes: Routes = [
   },
   {
     path: 'calculatrice', component: CalculatriceComponent, canActivate: [authGuard]
+  },
+  {
+    path: 'projets', component: ProjectListComponent, canActivate: [authGuard]
+  },
+  {
+    path: 'projets/:id', component: ProjectDetailComponent, canActivate: [authGuard]
+  },
+  {
+    path: 'contacts', component: ContactsComponent, canActivate: [authGuard]
   }
 ];
 
